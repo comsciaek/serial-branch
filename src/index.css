@@ -6,8 +6,51 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Itim', cursive;
 }
 
-/* .font-web {
+.font-root {
   font-family: 'Itim', cursive;
-} */
+}
+
+
+.animation {
+  animation-name: move;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+  animation-delay: 2s;
+}
+.a0 {
+  animation-delay: 1s;
+}
+.a1 {
+  animation-delay: 1.1s;
+}
+.a2 {
+  animation-delay: 1.2s;
+}
+.a3 {
+  animation-delay: 1.3s;
+}
+.a4 {
+  animation-delay: 1.4s;
+}
+.a5 {
+  animation-delay: 1.5s;
+}
+.a6 {
+  animation-delay: 1.7s;
+}
+
+@keyframes move {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
