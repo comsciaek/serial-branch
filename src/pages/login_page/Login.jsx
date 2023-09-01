@@ -44,7 +44,7 @@ const Login = () => {
               </Form>
             </div>
             <div className='mt-3 w-full text-center'>
-              <button className='col-12 col-lg-6 p-1 rounded-lg text-white bg-blue-300 hover:bg-blue-400'> เข้าสู่ระบบ / Login </button>
+              <button className='col-12 col-lg-6 p-2 rounded-lg text-white bg-blue-400 hover:bg-blue-500'> เข้าสู่ระบบ / Login </button>
             </div> 
           </div>
       </div>

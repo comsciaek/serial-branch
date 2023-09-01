@@ -1,10 +1,15 @@
 import React from 'react'
+import { Select } from 'antd'
 
 const Dropdown_cp = (props) => {
+
+  const handleChange = (value) => {
+    console.log("ข้อมูลที่เลือก", value)
+  }
+
+
   return (
-    <select name="branch" id="branch" className={`w-full h-7 rounded-md ${props.borderColor} ${props.borderSize}`}>
-        <option value=""> 1 </option>
-    </select>
+    <Select  className={`w-full rounded-md`} mode={props.mode} allowClear options={props.data.map(item => ({ value: item.id, label: item.name }))} onChange={handleChange} placeholder={props.placeholder} />
   )
 }
 

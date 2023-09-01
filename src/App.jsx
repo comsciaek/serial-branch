@@ -8,7 +8,7 @@ import { Home, Error, Login, Upload } from "./pages/Index_page";
 function App() {
   return (
     <>
-      <div className="w-full h-screen">
+      <div className="w-full">
         <Routes>
           <Route path="/" element={<Navigate to={"/home_page"} />} />
           <Route path="*" element={<Error />} />
