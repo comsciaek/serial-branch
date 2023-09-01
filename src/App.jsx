@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -6,9 +6,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Home, Error, Login, Upload } from "./pages/Index_page";
 
 function App() {
+
+
   return (
     <>
-      <div className="w-full">
+      <div className="w-full h-screen">
         <Routes>
           <Route path="/" element={<Navigate to={"/home_page"} />} />
           <Route path="*" element={<Error />} />

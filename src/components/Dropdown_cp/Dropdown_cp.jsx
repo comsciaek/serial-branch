@@ -9,7 +9,7 @@ const Dropdown_cp = (props) => {
 
 
   return (
-    <Select  className={`w-full rounded-md`} mode={props.mode} allowClear options={props.data.map(item => ({ value: item.id, label: item.name }))} onChange={handleChange} placeholder={props.placeholder} />
+    <Select  className={`w-full rounded-md`} mode={props.mode} allowClear options={props.data.map(item => ({ value: item.title, label: item.title }))} onChange={handleChange} placeholder={props.placeholder} />
   )
 }
 
