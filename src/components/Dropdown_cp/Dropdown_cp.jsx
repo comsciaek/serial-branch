@@ -3,9 +3,7 @@ import { Select } from "antd";
 
 const Dropdown_cp = (props) => {
   const handleChange = (value) => {
-    // const jsonValue = JSON.stringify(value);
     props.VulueDrop(value);
-    console.log(value)
   };
 
   return (

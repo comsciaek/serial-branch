@@ -2,33 +2,42 @@ import React, { useEffect, useState } from 'react'
 import { Image, message, Steps, Radio  } from 'antd';
 import { InputUpload_cp, Input_cp, Dropdown_cp, TextArea_cp } from '../../components/Components'
 
-import { getProduct, getListProblem } from '../../services/apiServices';
+import { getProduct, getListProblem, UpdateSerialPost } from '../../services/apiServices';
 
 const Product_page = () => {
     const [itemProduct, setItemProduct] = useState([]);
-    const [problemList, setProblemList] = useState([])
+    const [problemList, setProblemList] = useState([]);
     // Value Step
     const [current, setCurrent] = useState(0);
     // Value SerialCode
     const [serial, setSerial] = useState("");
-    const [checkSerial, setCheckSerial] = useState(false)
+    const [checkSerial, setCheckSerial] = useState(false);
     // Value Radio Check
     const [checkpro, setCheckpro] = useState(0);
-    const [disableCp, setDisableCp] = useState(false)
+    const [disableCp, setDisableCp] = useState(false);
     // Value DropDown
-    const [valDrop, setValDrop] = useState([])
+    const [valDrop, setValDrop] = useState([]);
     // Value_TextArea
-    const [valArea0, setValArea0] = useState("")
-    const [valArea1, setValArea1] = useState("")
-    const [valArea2, setValArea2] = useState("")
+    const [valArea0, setValArea0] = useState("");
+    const [valArea1, setValArea1] = useState("");
+    const [valArea2, setValArea2] = useState("");
     // Value UploadImage
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [messageApi, contextHolder] = message.useMessage();
+
+    const dataSerial = JSON.parse(localStorage.getItem("dataSerial"))
 
     const UploadSuccess = () => {
         messageApi.open({
             type: 'success',
             content: 'อัพโหลดสำเร็จ'
+        })    
+    }
+
+    const UpdateSerial = () => {
+        messageApi.open({
+            type: 'success',
+            content: 'อัพเดตข้อมูลสำเร็จ'
         })    
     }
 
@@ -54,9 +63,9 @@ const Product_page = () => {
     };
 
     const steps = [
-        { title: 'Please specify the serial', content: 'First-content'},
-        { title: 'Please specify the problem', content: 'Second-content'},
-        { title: 'Please upload pictures', content: 'Last-content'},
+        { title: 'Please specify the serial'},
+        { title: 'Please specify the problem'},
+        { title: 'Please upload pictures'},
     ];
     const items = steps.map((item) => ({ key: item.title, title: item.title}));
 
@@ -77,6 +86,7 @@ const Product_page = () => {
             if ( result.data.data != 0 ){
                 setItemProduct(result.data.data[0])
                 setCheckSerial(true)
+                localStorage.setItem("dataSerial", JSON.stringify(result.data.data[0]))
                 SerialSuccess()
             } else {
                 Error()
@@ -95,6 +105,23 @@ const Product_page = () => {
         } catch (error) {
             Error()
         }
+    }
+
+    const handleUpdate = async () => {
+        try {
+            let Jsondata = { serialno: serial, branch: dataSerial.branch, user_update: "ผู้อัพเดท" , problem: checkpro, problem_details: valDrop, product_condition: valArea0, important_info: valArea1, other: valArea2 }
+            const result = await UpdateSerialPost( Jsondata )
+            if (result.status === 200){
+                UpdateSerial()
+                next()
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const handlClickOnIssue = () => {
+        handleUpdate()
     }
 
     const handleEnter = (e) => {
@@ -121,7 +148,7 @@ const Product_page = () => {
         {current ==  0 && (
             <div className='row mx-0 my-5 lg:px-60 animation a0'>
                 <div className='px-0 row mb-2'>
-                    <p className='col-lg-6 px-4 text-xl font-semibold text-amber-500'> Enter Serial number </p>
+                    <p className='col-lg-6 px-4 text-xl font-semibold text-amber-500'> Enter Serial No. </p>
                     {/* <div className='col-lg-6 lg:px-3 text-xl font-semibold text-amber-500'>
                         <div className='row items-center'>
                             <p className='col-lg-4 text-xl font-semibold text-amber-500'> Select Branch </p>
@@ -212,7 +239,7 @@ const Product_page = () => {
                 <div className='row lg:my-3 xs:text-center lg:justify-between mx-0'>
                     <button onClick={() => prev()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 border-red-500 bg-red-500 hover:bg-red-400 text-white`}> Back </button>
                     { checkpro == 1 ? (
-                        <button onClick={() => next()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ CheckOnIssue ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckOnIssue} > Next </button>
+                        <button onClick={handlClickOnIssue} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ CheckOnIssue ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckOnIssue} > Next </button>
                     ) : (
                         <button onClick={() => next()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ CheckNotIssue ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckNotIssue} > Next </button>
                     )}

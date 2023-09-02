@@ -4,12 +4,14 @@ import jwt_decode from "jwt-decode";
 
 ///////////
 
-const Config = {
-    'Content-Type': 'application/json',
-    'Authorization': apiKeyAuth,
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': '*'
-}
+// const Config = {
+//     'Content-Type': 'application/json',
+//     'Authorization': apiKeyAuth,
+//     'Access-Control-Allow-Origin': '*',
+//     'Access-Control-Allow-Headers': '*'
+// }
+
+const authApi = axios.create({ baseURL: apiUrl })
 
 // const authApi = axios.create({ baseURL: apiUrl, headers: {'Authorization': `Bearer ${AccessToken}`}})
 
@@ -73,7 +75,7 @@ const Config = {
 // GetSerial_No
 export const getProduct = async ( jsonSerial ) => {
     try {
-        const response = await axios.post (apiUrl + path.GET_PRODUCT_SERIAL, jsonSerial)
+        const response = await authApi.post (apiUrl + path.GET_PRODUCT_SERIAL, jsonSerial)
         return response
     } catch (error) {
         throw error
@@ -83,7 +85,7 @@ export const getProduct = async ( jsonSerial ) => {
 // Getlist_Problem
 export const getListProblem = async () => {
     try {
-        const response = await axios.get (apiUrl + path.GET_LIST_PROBLEM)
+        const response = await authApi.get (apiUrl + path.GET_LIST_PROBLEM)
         return response
     } catch (error) {
         throw error
@@ -92,9 +94,9 @@ export const getListProblem = async () => {
 
 export const UpdateSerialPost = async ( JsonData ) => {
     try {
-        const response = await axios.get (apiUrl + path.UPDATE_SERIAL, JsonData)
+        const response = await axios.post (apiUrl + path.UPDATE_SERIAL, JsonData)
         return response
     } catch (error) {
-        
+        throw error
     }
 }
