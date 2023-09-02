@@ -1,11 +1,15 @@
 import React, { useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { message } from 'antd';
+// import { Dropdown_cp } from '../../components/Components';
+
+// import Mock from '../../json/Mock_More.json'
 
 const Login = () => {
   const userRef = useRef();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  // const [valDrop, setValDrop] = useState([])
   const [messageApi, contextHolder] = message.useMessage();
 
   const error = () => {
@@ -43,6 +47,12 @@ const Login = () => {
                 </Form.Group>
               </Form>
             </div>
+
+            {/* <div className='mt-3 w-full text-center animation a6 lg:px-24'>
+              <p className='text-start'> สาขา : </p>
+              <Dropdown_cp mode={""} data={Mock} placeholder={"กรุณาเลือกปัญหาที่พบ ( เลือกได้มากกว่า 1 )"} VulueDrop={(e) => setValDrop(e)} value={valDrop} style={"w-full"} />
+            </div> */}
+
             <div className='mt-4 w-full text-center animation a6'>
               <button className='col-12 col-lg-6 p-2 rounded-lg text-white bg-blue-400 hover:bg-blue-500'> เข้าสู่ระบบ / Login </button>
             </div> 

@@ -1,16 +1,25 @@
-import React from 'react'
-import { Select } from 'antd'
+import React from "react";
+import { Select } from "antd";
 
 const Dropdown_cp = (props) => {
-
   const handleChange = (value) => {
-    props.VulueDrop(value)
-  }
-
+    // const jsonValue = JSON.stringify(value);
+    props.VulueDrop(value);
+    console.log(value)
+  };
 
   return (
-    <Select  className={`w-full rounded-md`} mode={props.mode} allowClear options={props.data.map(item => ({ value: item.title, label: item.title }))} onChange={handleChange} placeholder={props.placeholder} value={props.value} />
-  )
-}
+    <Select
+      className={`rounded-md ${props.style}`}
+      mode={props.mode}
+      allowClear
+      status={`${ props.value == "" ? "error" : ""}`}
+      onChange={handleChange}
+      placeholder={props.placeholder}
+      value={props.value}
+      options={props.data.map((item) => ({ value: item.value, label: item.value }))}
+    />
+  );
+};
 
-export default Dropdown_cp
+export default Dropdown_cp;
