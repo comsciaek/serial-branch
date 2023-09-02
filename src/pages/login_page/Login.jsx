@@ -23,18 +23,18 @@ const Login = () => {
 
 
   return (
-    <div className='place-items-center h-screen xs:py-7 lg:py-12 bg-gradient-to-t from-blue-400 to-blue-100'>
+    <div className='place-items-center h-screen xs:py-7 lg:py-12 bg-gradient-to-t from-blue-200 to-blue-500'>
       {contextHolder}
-      <div className='xs:my-6 lg:my-11 animation a0 bg-blue-300'>
+      <div className='xs:my-6 lg:my-11 animation a0'>
           <img src="/src/assets/images/logo-w.webp" alt="" className='xs:h-28 lg:h-48 mx-auto' />
       </div>
-      <div className='row xs:mx-5 lg:mx-96 bg-blue-200 border-2 border-blue-400 rounded-xl shadow-xl animation a1 py-3'>
+      <div className='row xs:mx-5 lg:mx-96 bg-blue-200 border-2 border-blue-600 rounded-xl shadow-xl animation a1 py-3'>
           <div className='col-12 border-blue-400'>
             <p className='text-xl text-white animation a1 text-center'> ยินดีต้อนรับสู่ Branch Image </p>
             <div>
               <Form className='space-y-3 lg:px-24'>
                 <Form.Group controlId='formBasicUsername'>
-                  <Form.Label className='animation a2'> Username : </Form.Label>
+                  <Form.Label className='animation a2'> Username :  </Form.Label>
                   <Form.Control type='text' placeholder='Enter Username' ref={userRef} onChange={(e) => setUsername(e.target.value)} required autoComplete="off" className="transition-all duration-300 ease-in-out focus:ring focus:ring-blue-400 animation a3" />
                 </Form.Group>
                 <Form.Group>

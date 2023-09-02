@@ -1,11 +1,9 @@
-import Home from "./home_page/Home";
 import Error from "./Error_page/Error";
 import Login from "./Login_page/Login";
-import Upload from "./Upload_page/Upload";
+import Product_page from "./Product_page/Product_page";
 
 export {
-    Home,
     Error,
     Login,
-    Upload
+    Product_page
 }

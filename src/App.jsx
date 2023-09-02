@@ -3,20 +3,19 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { Home, Error, Login, Upload } from "./pages/Index_page";
+import { Error, Login, Product_page } from "./pages/Index_page";
 
 function App() {
 
 
   return (
     <>
-      <div className="w-full h-screen">
+      <div className="w-full">
         <Routes>
-          <Route path="/" element={<Navigate to={"/home_page"} />} />
+          <Route path="/" element={<Navigate to={"/product_page"} />} />
           <Route path="*" element={<Error />} />
-          <Route path="/home_page" element={<Home />} />
           <Route path="/login_page" element={<Login />} />
-          <Route path="/upload_page" element={<Upload />} />
+          <Route path="/product_page" element={<Product_page />} />
         </Routes>
       </div>
     </>

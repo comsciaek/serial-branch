@@ -36,7 +36,7 @@ const InputUpload_cp = (props) => {
         {contextHolder}
         <input type="file" id="file" className='hidden' accept="image/*" multiple onChange={handleFileChange} />
         <label htmlFor="file" className='w-full'>
-            <div className='flex space-x-2 cursor-pointer items-center p-5 justify-center border-2 border-dotted border-blue-600'>
+            <div className='flex space-x-2 cursor-pointer items-center p-5 justify-center'>
                 <FontAwesomeIcon icon={faPhotoFilm} className='h-6 w-6 text-amber-500' />
                 <span className='text-base font-medium'> เพิ่มรูปภาพ </span>  
             </div>

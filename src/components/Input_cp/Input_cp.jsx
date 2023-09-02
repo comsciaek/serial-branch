@@ -8,7 +8,7 @@ const Input_cp = (props) => {
     }
 
   return (
-    <Input placeholder={props.placeholder} className='shadow-lg rounded-lg border-2 border-blue-400' onChange={handleChange} allowClear />
+    <Input placeholder={props.placeholder} className='rounded-lg' onChange={handleChange} allowClear value={props.value} disabled={props.disabled} />
   )
 }
 

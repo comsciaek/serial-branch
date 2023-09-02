@@ -7,6 +7,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Itim', cursive;
+  background-color: #dceafd;
 }
 
 .font-root {
@@ -19,6 +20,9 @@
   animation-duration: 0.4s;
   animation-fill-mode: both;
   animation-delay: 2s;
+}
+.a01 {
+  animation-delay: 0.5s;
 }
 .a0 {
   animation-delay: 1s;
