@@ -201,12 +201,6 @@ const Product_page = () => {
             <div className='row mx-0 my-5 lg:px-60 animation a0'>
                 <div className='px-0 row mb-2'>
                     <p className='col-lg-6 xs:px-6 lg:px-10 text-xl font-semibold text-amber-500'> Enter Serial No. </p>
-                    {/* <div className='col-lg-6 lg:px-3 text-xl font-semibold text-amber-500'>
-                        <div className='row items-center'>
-                            <p className='col-lg-4 text-xl font-semibold text-amber-500'> Select Branch </p>
-                            <Dropdown_cp mode={""} data={problemList} placeholder={"กรุณาเลือกปัญหาที่พบ ( เลือกได้มากกว่า 1 )"} VulueDrop={(e) => setValDrop(e)} value={valDrop} style={"col-lg-8 p-0"} />
-                        </div>
-                    </div> */}
                 </div>
                 
                 <div className='row mx-0 justify-between items-center'>
@@ -259,8 +253,6 @@ const Product_page = () => {
                             <div className='col-lg-4 px-0'>
                                 <div className='my-1 px-1'>
                                     <p className='px-1'> สภาพสินค้า </p>
-                                    {/* <Input_cp value={items.title} disabled={false} /> */}
-                                    {/* <Dropdown_cp data={MockDataMore} placeholder={"เลือกอื่นๆ"} VulueDrop={(e) => setValDropMore1(e)} value={valDropMore1} /> */}
                                 </div>
                                 <div className='w-full my-1 mb-3 px-1'>
                                     <TextArea_cp placeholder={"หมายเหตุ"} resize={"none"} ValueArea={(e) => setValArea0(e)} value={valArea0} />
