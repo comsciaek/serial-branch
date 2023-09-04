@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Image, message, Steps, Radio  } from 'antd';
+import { Image, message, Steps, Radio, FloatButton } from 'antd';
 import { InputUpload_cp, Input_cp, Dropdown_cp, TextArea_cp } from '../../components/Components'
 
-import { getProduct, getListProblem, UpdateSerialPost } from '../../services/apiServices';
+import { getProduct, getListProblem, UpdateSerialPost, UploadImage } from '../../services/apiServices';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Product_page = () => {
     const [itemProduct, setItemProduct] = useState([]);
@@ -30,7 +32,7 @@ const Product_page = () => {
     const UploadSuccess = () => {
         messageApi.open({
             type: 'success',
-            content: 'อัพโหลดสำเร็จ'
+            content: `Files uploaded successfully!`
         })    
     }
 
@@ -120,8 +122,56 @@ const Product_page = () => {
         }
     }
 
+    const handleUploadImage = async () => {
+        try {
+            const result = await UploadImage ( selectedFiles, serial, dataSerial.branch )
+            if ( result.status === 200 ){
+                // console.log(result.data.message)
+                UploadSuccess()
+                
+                // Clear Data on Finish
+                setCheckSerial(false)
+                setValDrop([])
+                setValArea0("")
+                setValArea1("")
+                setValArea2("")
+                setSerial("")
+                localStorage.removeItem("dataSerial");
+
+                // Go on Enter Serial
+                setCurrent(0);
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const handleNotImg = () => {
+        // Clear Data on Finish
+        setCheckSerial(false)
+        setValDrop([])
+        setValArea0("")
+        setValArea1("")
+        setValArea2("")
+        setSerial("")
+        localStorage.removeItem("dataSerial");
+
+        // Go on Enter Serial
+        setCurrent(0);
+    }
+
+    const handleLogout = () => {
+        console.log("Logout")
+        localStorage.clear()
+        location.href = "/login_page"
+    }
+
     const handlClickOnIssue = () => {
         handleUpdate()
+    }
+
+    const handleSearch = () => {
+        getProductBySerial()
     }
 
     const handleEnter = (e) => {
@@ -134,21 +184,23 @@ const Product_page = () => {
         getList_Problem()
     }, [])
 
-    const CheckOnIssue = checkpro && valDrop 
-    const CheckNotIssue = checkpro
+    const CheckOnIssue = checkpro && valDrop.length > 0
     const CheckUploadImg = selectedFiles.length > 0 
-
 
   return (
     <div className={`w-full min-h-screen place-items-center xs:py-7 lg:py-12`}>
         {contextHolder}
+        <FloatButton.Group trigger="click" type='primary' icon={<FontAwesomeIcon icon={faRightFromBracket} />}>
+            <FloatButton icon={<FontAwesomeIcon icon={faRightFromBracket} />} onClick={handleLogout} />
+        </FloatButton.Group>
+
         <Steps current={current} items={items} className='xs:pl-5 lg:pl-36 lg:px-36 animation a0' />
 
         {/* 1 */}
         {current ==  0 && (
             <div className='row mx-0 my-5 lg:px-60 animation a0'>
                 <div className='px-0 row mb-2'>
-                    <p className='col-lg-6 px-4 text-xl font-semibold text-amber-500'> Enter Serial No. </p>
+                    <p className='col-lg-6 xs:px-6 lg:px-10 text-xl font-semibold text-amber-500'> Enter Serial No. </p>
                     {/* <div className='col-lg-6 lg:px-3 text-xl font-semibold text-amber-500'>
                         <div className='row items-center'>
                             <p className='col-lg-4 text-xl font-semibold text-amber-500'> Select Branch </p>
@@ -156,16 +208,18 @@ const Product_page = () => {
                         </div>
                     </div> */}
                 </div>
-                <div className='mx-0 justify-between items-center'>
-                    <div className=''>
+                
+                <div className='row mx-0 justify-between items-center'>
+                    <div className='col-lg-10 xs:px-0 lg:px-3'>
                         <Input_cp placeholder={"Enter Serial number"} inputValue={(e) => setSerial(e)} value={serial} KeyDown={handleEnter} />
                     </div>
-                    {/* <div className='col-lg-2 px-0 xs:my-1 lg:my-0'>
-                        <button className='w-full xs:p-3 lg:p-1 rounded-xl border-2 text-white bg-amber-400 border-amber-400 hover:bg-amber-300' onClick={getProductBySerial}> ค้นหา </button>
-                    </div> */}
+                    <div className='col-lg-2 px-0 my-2'>
+                        <button onClick={handleSearch} className={`w-full xs:p-3 lg:p-1 rounded-xl border-2 text-white ${ serial.length == 0 ? "bg-gray-100 border-gray-300" : "bg-amber-400 border-amber-400 hover:bg-amber-300"}`} disabled={!serial} > ค้นหา </button>
+                    </div>
                 </div>
+
                 { checkSerial && (
-                    <div>
+                    <div className='lg:pl-6'>
                         <div className='row mx-0 mt-3 my-1 p-1 border-2 border-blue-400 bg-blue-200 items-center rounded-xl font-semibold text-blue-700'>
                             <p className='col-lg-4'> Serial No : <span className='text-gray-600'> {itemProduct.serial} </span></p>
                             <p className='col-lg-4'> สาขา : <span className='text-gray-600'> {itemProduct.branch} </span></p>
@@ -238,10 +292,10 @@ const Product_page = () => {
 
                 <div className='row lg:my-3 xs:text-center lg:justify-between mx-0'>
                     <button onClick={() => prev()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 border-red-500 bg-red-500 hover:bg-red-400 text-white`}> Back </button>
-                    { checkpro == 1 ? (
-                        <button onClick={handlClickOnIssue} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ CheckOnIssue ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckOnIssue} > Next </button>
+                    { checkpro == 0 ? (
+                        <button onClick={handleNotImg} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white bg-amber-400 border-amber-400 hover:bg-amber-300`} > Next </button>
                     ) : (
-                        <button onClick={() => next()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ CheckNotIssue ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckNotIssue} > Next </button>
+                        <button onClick={handlClickOnIssue} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ CheckOnIssue ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckOnIssue} > Next </button>
                     )}
                 </div>
             </div>
@@ -272,9 +326,9 @@ const Product_page = () => {
                 <div className='row my-3 xs:text-center lg:justify-between mx-0'>
                     <button onClick={() => prev()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 border-red-500 bg-red-500 hover:bg-red-400 text-white`}> Back </button>
                     { checkpro == 1 ? (
-                        <button onClick={() => next()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ selectedFiles.length > 0 ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckUploadImg} > Finish </button>
+                        <button onClick={handleUploadImage} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 text-white ${ selectedFiles.length > 0 ? "bg-amber-400 border-amber-400 hover:bg-amber-300" : "bg-gray-100 border-gray-300"}`} disabled={!CheckUploadImg} > Finish </button>
                     ) : (
-                        <button onClick={() => next()} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 bg-amber-400 border-amber-400 hover:bg-amber-300 text-white`}  > Finish </button>
+                        <button onClick={handleNotImg} className={`col-lg-2 xs:p-3 lg:p-1 my-1 rounded-xl border-2 bg-amber-400 border-amber-400 hover:bg-amber-300 text-white`}  > Finish </button>
                     )}
                 </div>
             </div>

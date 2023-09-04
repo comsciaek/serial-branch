@@ -6,7 +6,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Error, Login, Product_page } from "./pages/Index_page";
 
 function App() {
-
+  
+  const AccessToken = localStorage.getItem("token");
+  if ( !AccessToken ) {
+    return <Login />
+  }
 
   return (
     <>

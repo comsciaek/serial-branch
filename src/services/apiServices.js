@@ -1,7 +1,8 @@
 import axios from "axios"
-import { apiUrl, path, apiKeyAuth } from "./constants"
+import { apiUrl, path, apiLogin, apiUpload } from "./constants"
 import jwt_decode from "jwt-decode";
 
+const AccessToken = localStorage.getItem('token');
 ///////////
 
 // const Config = {
@@ -12,65 +13,81 @@ import jwt_decode from "jwt-decode";
 // }
 
 const authApi = axios.create({ baseURL: apiUrl })
+const authUpload = axios.create({ baseURL: apiUpload})
+const authLogin = axios.create({ baseURL: apiLogin })
+
 
 // const authApi = axios.create({ baseURL: apiUrl, headers: {'Authorization': `Bearer ${AccessToken}`}})
 
-// // Function to check if the token is expired
-// const isTokenExpired = (token) => {
-//     if (!token) {
-//       return true; // Token doesn't exist or is empty, consider it expired
-//     }
+// Function to check if the token is expired
+const isTokenExpired = (token) => {
+    if (!token) {
+      return true; // Token doesn't exist or is empty, consider it expired
+    }
   
-//     try {
-//       const decodedToken = jwt_decode(token);
-//       const currentTime = Date.now() / 1000; // Convert to seconds
+    try {
+      const decodedToken = jwt_decode(token);
+      const currentTime = Date.now() / 1000; // Convert to seconds
   
-//       return decodedToken.exp < currentTime;
-//     } catch (error) {
-//       return true; // If there's an error in decoding the token, consider it expired
-//     }
-// };
+      return decodedToken.exp < currentTime;
+    } catch (error) {
+      return true; // If there's an error in decoding the token, consider it expired
+    }
+};
 
-// // Function to clear local storage and log out the user
-// const clearLocalStorageAndLogout = () => {
-//     localStorage.clear();
-//     location.href = "/login"
-//     return { status: true, message: "ออกจากระบบ" }
-// };
+// Function to clear local storage and log out the user
+const clearLocalStorageAndLogout = () => {
+    localStorage.clear();
+    location.href = "/login"
+    return { status: true, message: "ออกจากระบบ" }
+};
 
-// // Check token expiration and clear local storage if expired 
-// export const checkTokenExpiration = () => {
-//     if (isTokenExpired(AccessToken)) {
-//       clearLocalStorageAndLogout();
-//     }
-// };
+// Check token expiration and clear local storage if expired 
+export const checkTokenExpiration = () => {
+    if (isTokenExpired(AccessToken)) {
+      clearLocalStorageAndLogout();
+    }
+};
 
-// // Run the token expiration check every 3 minutes (180,000 milliseconds)
-// setInterval(checkTokenExpiration, 180000);
+// Run the token expiration check every 3 minutes (180,000 milliseconds)
+setInterval(checkTokenExpiration, 180000);
 
-// // Response Interceptor
-// authApi.interceptors.response.use(
-//     (response) => {
-//         return response;
-//     },
-//     async (error) => {
-//         const originalRequest = error.config;
+// Response Interceptor
+authLogin.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    async (error) => {
+        const originalRequest = error.config;
 
-//         if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-//             try {
-//                 const  newAccessToken = await refreshToken();
-//                 authApi.defaults.headers['Authorization'] = `Bearer ${newAccessToken}`;
-//                 originalRequest.headers(originalRequest)
-//                 return authApi(originalRequest)
-//             } catch (refreshError) {
-//                 throw refreshError;
-//             }
-//         }
-//         return Promise.reject(error)
-//     }
-// )
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            try {
+                const  newAccessToken = await refreshToken();
+                authLogin.defaults.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                originalRequest.headers(originalRequest)
+                return authLogin(originalRequest)
+            } catch (refreshError) {
+                throw refreshError;
+            }
+        }
+        return Promise.reject(error)
+    }
+)
 
 ///////////
+
+// apiLogin
+export const loginApi = async ( JsonData ) => {
+    try {
+        const response = await authLogin.post (apiLogin + path.LOGIN_URL, JsonData)
+            if (response.status === 200){
+                localStorage.setItem( "token", response.data.token );
+            }
+        return response
+    } catch (error) {
+        throw error
+    }
+}
 
 // GetSerial_No
 export const getProduct = async ( jsonSerial ) => {
@@ -95,6 +112,24 @@ export const getListProblem = async () => {
 export const UpdateSerialPost = async ( JsonData ) => {
     try {
         const response = await axios.post (apiUrl + path.UPDATE_SERIAL, JsonData)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+export const UploadImage = async ( file, serial, branch ) => {
+    try {
+        let formData = new FormData(); 
+        for (let i = 0; i < file.length; i++) {
+            formData.append('files', file[i]);
+        }
+
+        // console.log("Image", formData)
+        // console.log("Serial", serial)
+        // console.log("Branch", branch)
+        // console.log("URL_UPLOAD", apiUpload + path.UPLOAD_IMG + '?serial=' + '1234567891011' + '&branch=' + branch, formData)
+        const response = await authUpload.post(apiUpload + path.UPLOAD_IMG + '?serial=' + serial + '&branch=' + branch, formData)
         return response
     } catch (error) {
         throw error

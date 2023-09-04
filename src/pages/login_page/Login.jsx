@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { message } from 'antd';
+import { loginApi } from '../../services/apiServices';
 // import { Dropdown_cp } from '../../components/Components';
 
 // import Mock from '../../json/Mock_More.json'
@@ -9,6 +10,7 @@ const Login = () => {
   const userRef = useRef();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [programid, setProgramid] = useState(150)
   // const [valDrop, setValDrop] = useState([])
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -21,9 +23,21 @@ const Login = () => {
 
   const handleEnterPress = (e) => {
     if (e.key === 'Enter') {
-      // handleSubmit();
+      postLogin();
     }
   };
+
+  const postLogin = async () => {
+    try {
+      let JsonData = { username: username, password: password, programid: programid }
+      const result = await loginApi ( JsonData )
+      if ( result.status === 200 ){
+        location.href = "/product_page"
+      }
+    } catch (error) {
+      error()
+    }
+  }
 
 
   return (
@@ -54,7 +68,7 @@ const Login = () => {
             </div> */}
 
             <div className='mt-4 w-full text-center animation a6'>
-              <button className='col-12 col-lg-6 p-2 rounded-lg text-white bg-blue-400 hover:bg-blue-500'> เข้าสู่ระบบ / Login </button>
+              <button className='col-12 col-lg-6 p-2 rounded-lg text-white bg-blue-400 hover:bg-blue-500' onClick={postLogin}> เข้าสู่ระบบ / Login </button>
             </div> 
           </div>
       </div>
