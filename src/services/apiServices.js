@@ -124,11 +124,7 @@ export const UploadImage = async ( file, serial, branch ) => {
         for (let i = 0; i < file.length; i++) {
             formData.append('files', file[i]);
         }
-
-        // console.log("Image", formData)
-        // console.log("Serial", serial)
-        // console.log("Branch", branch)
-        // console.log("URL_UPLOAD", apiUpload + path.UPLOAD_IMG + '?serial=' + '1234567891011' + '&branch=' + branch, formData)
+        
         const response = await authUpload.post(apiUpload + path.UPLOAD_IMG + '?serial=' + serial + '&branch=' + branch, formData)
         return response
     } catch (error) {

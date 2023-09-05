@@ -15,7 +15,7 @@ const Input_cp = (props) => {
   return (
     <>
       {/* { props.type == "Search" && <Search placeholder={props.placeholder} className='rounded-lg font-semibold p-1' onChange={onSearch} allowClear value={props.value} /> } */}
-      <Input placeholder={props.placeholder} className='rounded-lg font-semibold py-1' onChange={handleChange} allowClear value={props.value} disabled={props.disabled} onPressEnter={props.KeyDown} />
+      <Input placeholder={props.placeholder} className='rounded-lg font-semibold py-2' onChange={handleChange} allowClear value={props.value} disabled={props.disabled} onPressEnter={props.KeyDown} />
       {/* { props.type == "Input" && <Input placeholder={props.placeholder} className='rounded-lg font-semibold p-1' onChange={handleChange} allowClear value={props.value} disabled={props.disabled} onKeyDown={props.KeyDown} /> } */}
     </>
 
