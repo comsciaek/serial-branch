@@ -32,7 +32,6 @@ const Login = () => {
       let JsonData = { username: username, password: password, programid: programid }
       const result = await loginApi ( JsonData )
       if ( result.status === 200 ){
-        console.log(result.data)
         location.href = "/product_page"
       }
     } catch (error) {
@@ -42,7 +41,7 @@ const Login = () => {
 
 
   return (
-    <div className='place-items-center h-screen xs:py-7 lg:py-12 bg-gradient-to-t from-blue-200 to-blue-500'>
+    <div className='place-items-center h-screen xs:py-7 lg:py-12 bg-gradient-to-t from-blue-200 to-blue-500' style={{}}>
       {contextHolder}
       <div className='xs:my-6 lg:my-11 animation a0'>
           <img src="/src/assets/images/logo-w.webp" alt="" className='xs:h-28 lg:h-48 mx-auto' />

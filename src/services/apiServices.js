@@ -81,7 +81,12 @@ export const loginApi = async ( JsonData ) => {
     try {
         const response = await authLogin.post (apiLogin + path.LOGIN_URL, JsonData)
             if (response.status === 200){
+                // console.log(response.data)
                 localStorage.setItem( "token", response.data.token );
+                if (response.data.token){
+                    const decodedToken = jwt_decode(response.data.token)
+                    localStorage.setItem( "userData", JSON.stringify(decodedToken))
+                }
             }
         return response
     } catch (error) {
@@ -124,7 +129,7 @@ export const UploadImage = async ( file, serial, branch ) => {
         for (let i = 0; i < file.length; i++) {
             formData.append('files', file[i]);
         }
-        
+
         const response = await authUpload.post(apiUpload + path.UPLOAD_IMG + '?serial=' + serial + '&branch=' + branch, formData)
         return response
     } catch (error) {

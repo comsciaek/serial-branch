@@ -65,9 +65,9 @@ const Product_page = () => {
     };
 
     const steps = [
-        { title: 'Please specify the serial'},
-        { title: 'Please specify the problem'},
-        { title: 'Please upload pictures'},
+        { title: 'กรุณาระบุซีเรียล'},
+        { title: 'กรุณาระบุปัญหา'},
+        { title: 'กรุณาอัพโหลดภาพ'},
     ];
     const items = steps.map((item) => ({ key: item.title, title: item.title}));
 
