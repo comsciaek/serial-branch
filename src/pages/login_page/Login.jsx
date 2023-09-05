@@ -14,7 +14,7 @@ const Login = () => {
   // const [valDrop, setValDrop] = useState([])
   const [messageApi, contextHolder] = message.useMessage();
 
-  const error = () => {
+  const MsgError = () => {
     messageApi.open({
         type: 'error',
         content: 'ชื่อผู้ใช้หรือรหัสผ่านผิดพลาด'
@@ -35,7 +35,7 @@ const Login = () => {
         location.href = "/product_page"
       }
     } catch (error) {
-      error()
+      MsgError()
     }
   }
 
