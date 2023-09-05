@@ -32,6 +32,7 @@ const Login = () => {
       let JsonData = { username: username, password: password, programid: programid }
       const result = await loginApi ( JsonData )
       if ( result.status === 200 ){
+        console.log(result.data)
         location.href = "/product_page"
       }
     } catch (error) {

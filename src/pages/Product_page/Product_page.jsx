@@ -298,14 +298,15 @@ const Product_page = () => {
             <div className='row mx-0 my-5 lg:px-60 animation a01'>
                 { checkpro == 0 ? [] : (
                     <>
-                        <p className='px-3 mb-3 text-xl font-semibold text-amber-500'> อัพโหลดรูปภาพ </p>
+                        <p className='px-0 mb-3 text-xl font-semibold text-amber-500'> อัพโหลดรูปภาพ </p>
                         <div className='px-0 animation a01 bg-blue-200 hover:bg-blue-300 border-2 border-dotted border-blue-400'>
                             <InputUpload_cp onFileUpload={(e) => setSelectedFiles(e)} />
                         </div>
+                        <p className='mt-3 text-base px-0 text-red-700 font-semibold'>หมายเหตุ : **<span className='text-blue-700'> เพิ่มรูปได้เพียง 3 รูป เท่านั้น </span><span>**</span></p>
                     </>
                 )}
 
-                <div className={`row xs:mt-6 lg:mt-5 mx-0 justify-around p-2 items-center ${ selectedFiles.length > 0 ? "border-2 border-dotted border-blue-400 bg-blue-200 animation a01" : ""}`}>
+                <div className={`row xs:mt-6 lg:mt-3 mx-0 justify-around p-2 items-center ${ selectedFiles.length > 0 ? "border-2 border-dotted border-blue-400 bg-blue-200 animation a01" : ""}`}>
                     { selectedFiles.map((fileImg, index) => (
                         <div key={index} className='col-12 col-lg-3 my-2 border-2 border-red-700 pt-2 bg-gray-100 text-center'>
                             <Image src={URL.createObjectURL(fileImg)} alt={`Uploaded ${index + 1}`} className='mx-auto object-contain h-48' height={192} />
