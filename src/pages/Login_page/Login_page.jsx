@@ -6,7 +6,7 @@ import { loginApi } from '../../services/apiServices';
 
 // import Mock from '../../json/Mock_More.json'
 
-const Login = () => {
+const Login_page = () => {
   const userRef = useRef();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -76,4 +76,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login_page
